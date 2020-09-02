@@ -28,20 +28,17 @@ class Solution {
         if(node == null) return;
         
         traverse(node.left);
-        
-        if(currNode == null) {
-            currNode = node;
-        } else {
-            if(node.val < currNode.val) {
-                if(nodeToReplace[0] == null) {
-                    nodeToReplace[0] = currNode;
-                    nodeToReplace[1] = node;
-                } else {
-                    nodeToReplace[1] = node;
-                }
-            } 
-            currNode = node;
-        }
+
+        if(currNode != null && node.val < currNode.val) {
+            if(nodeToReplace[0] == null) {
+                nodeToReplace[0] = currNode;
+                nodeToReplace[1] = node;
+            } else {
+                nodeToReplace[1] = node;
+            }
+        } 
+
+        currNode = node;
         
         traverse(node.right);
     }

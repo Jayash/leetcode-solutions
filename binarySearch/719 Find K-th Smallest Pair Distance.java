@@ -23,14 +23,10 @@ class Solution {
         int right = 1;
         
         while(right < nums.length) {
+            while(nums[right] - nums[left] > mid) left++;
             
-            if(nums[right] - nums[left] <= mid) {
-                if(right == nums.length -1) {
-                    count += right - left;
-                    left++;
-                } else count += right - left;
-                right++;
-            } else left++;
+            count += right - left;
+            right++;
         }
         
         return count;

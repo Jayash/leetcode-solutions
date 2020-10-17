@@ -6,7 +6,6 @@ class Solution {
         List<int[]> ans = new ArrayList<>();
         int i=0;
         boolean inserted = false;
-        int j = 0;
         while(i < intervals.length) {
             if(inserted) {
                 if(ans.get(ans.size() -1)[1] < intervals[i][0]) {

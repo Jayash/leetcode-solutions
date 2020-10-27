@@ -17,8 +17,6 @@ class Solution {
     public int countNodes(TreeNode root) {
         if(root == null) return 0;
         
-        int h = 1;
-        
         Node node = new Node(root, 1);
         
         while(node.treeNode.left != null && node.treeNode.right != null) {

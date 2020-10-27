@@ -16,18 +16,21 @@
 class Solution {
     public int countNodes(TreeNode root) {
         if(root == null) return 0;
+        int h = 1;
         
-        Node node = new Node(root, 1);
-        
-        while(node.treeNode.left != null && node.treeNode.right != null) {
-            if(isSameHeight(node.treeNode.left, node.treeNode.right)) {
-                node = new Node(node.treeNode.right, 2 * node.index + 1);
-            } else node = new Node(node.treeNode.left, 2 * node.index);
+        while(root.left != null && root.right != null) {
+            if(isSameHeight(root.left, root.right)) {
+                root = root.right;
+                h = 2 * h + 1;
+            } else {
+                root = root.left;
+                h = 2 * h;
+            }
         }
 
-        if(node.treeNode.left == null) return node.index;
+        if(root.left == null) return h;
         
-        return 2 * node.index;
+        return 2 * h;
     }
     
     public boolean isSameHeight(TreeNode node1, TreeNode node2) {
@@ -40,14 +43,5 @@ class Solution {
         if(node1.left == null) return true;
         
         return false;
-    }
-}
-
-class Node {
-    TreeNode treeNode;
-    int index;
-    public Node(TreeNode node, int index) {
-        this.treeNode= node;
-        this.index = index;
     }
 }

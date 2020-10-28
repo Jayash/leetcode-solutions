@@ -26,14 +26,14 @@ class Solution {
         
         if(matches.get(i).isEmpty()) return false;
         Set<Integer> set = new HashSet<>();
-        while(i <= s.length() - wordLength) {
+        for(int j = 0; j < totalWords; j++) {
             if(matches.get(i).isEmpty()) return false;
             
             boolean flag = true;
-            for(int j: matches.get(i)) {
-                if(!set.contains(j)) {
+            for(int k: matches.get(i)) {
+                if(!set.contains(k)) {
                     flag = false;
-                    set.add(j);
+                    set.add(k);
                     break;
                 }
             }

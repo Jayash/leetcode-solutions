@@ -7,69 +7,63 @@ class Solution {
         
         TrieNode root = new TrieNode();
         
-        for(int i=0; i < words.length; i++) {
-            addToTrie(words[i], root, i);
-        }
-        List<Set<Integer>> matches = new ArrayList<>();
-        for(int i=0; i <= s.length() - wordLength; i++) {
+        Map<String, Integer> map = new HashMap<>();
+        
+        for(String word: words)
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        
+        for(String word: map.keySet())
+            addToTrie(word, root);
+        
+        List<String> matches = new ArrayList<>();
+        for(int i=0; i <= s.length() - wordLength; i++)
             matches.add(find(s, root, i, wordLength));
-        }
         
         int totalWordChar = words.length * wordLength;
         for(int i=0; i <= s.length() - totalWordChar; i++) {
-            if(check(s, wordLength, matches, words.length, i)) ans.add(i);
+            if(check(s, wordLength, matches, words.length, i, map)) ans.add(i);
         }
         return ans;
     }
     
-    public boolean check(String s, int wordLength, List<Set<Integer>> matches, int totalWords, int i) {
+    public boolean check(String s, int wordLength, List<String> matches, 
+                         int totalWords, int i, Map<String, Integer> map) {
         
-        if(matches.get(i).isEmpty()) return false;
-        Set<Integer> set = new HashSet<>();
+        if(matches.get(i) == null) return false;
+        Map<String, Integer> clone = new HashMap<>();
         for(int j = 0; j < totalWords; j++) {
-            if(matches.get(i).isEmpty()) return false;
+            if(matches.get(i) == null) return false;
             
-            boolean flag = true;
-            for(int k: matches.get(i)) {
-                if(!set.contains(k)) {
-                    flag = false;
-                    set.add(k);
-                    break;
-                }
-            }
-            if(flag) return false;
-            if(set.size() == totalWords) return true;
+            clone.put(matches.get(i), clone.getOrDefault(matches.get(i), 0) + 1);
             
             i += wordLength;
         }
         
-        return false;
+        return map.equals(clone);
     }
     
-    public Set<Integer> find(String s, TrieNode root, int i, int wordLength) {
+    public String find(String s, TrieNode root, int i, int wordLength) {
         TrieNode node = root;
         for(int j=i; j< i+wordLength; j++) {
             if(node.trie.containsKey(s.charAt(j))) 
                 node = node.trie.get(s.charAt(j));
             else break;
         }
-        return node.index;
+        return node.word;
     }
     
-    public void addToTrie(String word, TrieNode root, int i) {
+    public void addToTrie(String word, TrieNode root) {
         TrieNode node = root;
         for(int j=0; j< word.length(); j++) {
             if(!node.trie.containsKey(word.charAt(j)))
                 node.trie.put(word.charAt(j), new TrieNode());
             node = node.trie.get(word.charAt(j));
         }
-        node.index.add(i);
+        node.word = word;
     }
-    
-    
 }
 
 class TrieNode {
     Map<Character, TrieNode> trie = new HashMap<>();
-    Set<Integer> index = new HashSet<>();
+    String word;
 }

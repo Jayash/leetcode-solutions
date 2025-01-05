@@ -9,3 +9,4 @@ Concepts:
 - Segment Tree
 - Connected Component
 - Rolling Hash
+- Fenwick trees (Binary index tree)
